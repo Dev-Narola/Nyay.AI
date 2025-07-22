@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:15
-    container_name: nyay_postgres
+    image: postgres:16
+    container_name: postgres-db
     restart: always
     environment:
       POSTGRES_USER: nyay_user
@@ -15,19 +15,17 @@ services:
       - "2012:2012"
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: nyay_backend
-    restart: always
-    env_file:
-      - ./backend/.env
-    depends_on:
-      - db
+    build: .
+    container_name: fastapi-backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - .:/code
     ports:
       - "8000:8000"
-    command: >
-      sh -c "alembic upgrade head && gunicorn -k uvicorn.workers.UvicornWorker app.main:app --host 0.0.0.0 --port 8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
 
 volumes:
   postgres_data:
