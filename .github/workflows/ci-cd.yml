@@ -52,4 +52,4 @@ jobs:
         docker-compose --version
 
     - name: Run Docker Compose
-      run: docker-compose -f ./backend/docker-compose.yml up -d --build
+      run: docker-compose -f ./docker-compose.yml up -d --build
