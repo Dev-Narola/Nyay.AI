@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     services:
@@ -27,29 +26,20 @@ jobs:
           --health-retries 5
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.11
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
 
-    - name: Install dependencies
-      run: |
-        pip install -r backend/requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r backend/requirements.txt
 
-    - name: Run Tests (if any)
-      run: echo "✅ No tests yet"
+      - name: Run Tests (if any)
+        run: echo "✅ No tests yet"
 
-    - name: Build Docker image
-      run: docker build -t fastapi-app ./backend
-
-    - name: Install Docker Compose
-      run: |
-        sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
-        docker-compose --version
-
-    - name: Run Docker Compose
-      run: docker-compose -f ./docker-compose.yml up -d --build
+      - name: Build Docker image
+        run: docker build -t fastapi-app ./backend
