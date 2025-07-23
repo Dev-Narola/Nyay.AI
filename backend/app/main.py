@@ -1,10 +1,7 @@
-import uvicorn
+from fastapi import FastAPI
 
-from core.config import config
+app = FastAPI()
 
-if __name__ == "__main__":
-    uvicorn.run(
-        app="core.server:app",
-        reload=True if config.ENVIRONMENT != "production" else False,
-        workers=1,
-    )
+@app.get("/")
+def read_root():
+    return {"message": "Nyay.AI Backend is running"}

@@ -1,31 +1,45 @@
-version: '3.8'
+# version: '3.8'
+
+# services:
+#   backend:
+#     build:
+#       context: ./backend
+#     container_name: fastapi-backend
+#     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+#     ports:
+#       - "8000:8000"
+#     env_file:
+#       - ./backend/.env
+#     volumes:
+#       - ./backend:/code
+
+
+version: '3.9'
 
 services:
+  web:
+    build: 
+      context: ./backend
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - ./backend/.env
+
   db:
-    image: postgres:16
-    container_name: postgres-db
+    image: postgres:15
+    container_name: postgres_db
     restart: always
+    ports:
+      - "2012:2012"
     environment:
       POSTGRES_USER: nyay_user
       POSTGRES_PASSWORD: devnarola2012
       POSTGRES_DB: Nyay.AI
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "2012:2012"
-
-  backend:
-    build: .
-    container_name: fastapi-backend
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-    volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-    env_file:
-      - .env
 
 volumes:
   postgres_data:
