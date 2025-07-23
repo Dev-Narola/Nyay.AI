@@ -44,7 +44,7 @@ jobs:
         echo "No tests yet"  # Replace with `pytest` or similar when ready
 
     - name: Build Docker image
-      run: docker build -t fastapi-app .
+      run: docker build -t fastapi-app 
 
     - name: Run Docker Compose (optional)
       run: docker-compose up -d --build
