@@ -1,58 +1,4 @@
-# name: FastAPI CI/CD
-
-# on:
-#   push:
-#     branches: [ main ]
-#   pull_request:
-#     branches: [ main ]
-
-# jobs:
-#   build:
-
-#     runs-on: ubuntu-latest
-
-#     services:
-#       postgres:
-#         image: postgres:15
-#         env:
-#           POSTGRES_USER: nyay_user
-#           POSTGRES_PASSWORD: devnarola2012
-#           POSTGRES_DB: Nyay.AI
-#         ports:
-#           - 2012:2012
-#         options: >-
-#           --health-cmd pg_isready
-#           --health-interval 10s
-#           --health-timeout 5s
-#           --health-retries 5
-
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v3
-
-#     - name: Set up Python
-#       uses: actions/setup-python@v4
-#       with:
-#         python-version: 3.11
-
-#     - name: Install dependencies
-#       run: |
-#         pip install -r requirements.txt
-
-#     - name: Run Tests (if any)
-#       run: |
-#         echo "No tests yet"  # Replace with `pytest` or similar when ready
-
-#     - name: Build Docker image
-#       run: docker build -t fastapi-app 
-
-#     - name: Run Docker Compose (optional)
-#       run: docker-compose up -d --build
-
-
-# .github/workflows/ci-cd.yml
-
-name: FastAPI CI
+name: FastAPI CI/CD
 
 on:
   push:
@@ -62,16 +8,43 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: nyay_user
+          POSTGRES_PASSWORD: devnarola2012
+          POSTGRES_DB: Nyay.AI
+        ports:
+          - 2012:2012
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
 
-      - name: Test CI/CD works
-        run: echo "✅ GitHub Actions triggered successfully"
+    - name: Install dependencies
+      run: |
+        pip install -r backend/requirements.txt
+
+    - name: Run Tests (if any)
+      run: |
+        echo "No tests yet"  # Replace with `pytest` or similar when ready
+
+    - name: Build Docker image
+      run: docker build -t fastapi-app 
+
+    - name: Run Docker Compose (optional)
+      run: docker-compose up -d --build
